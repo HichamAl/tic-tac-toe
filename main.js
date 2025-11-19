@@ -23,11 +23,14 @@ const displayController = (function (){
         container.appendChild(div);
     }
 
-    const renderContent = (a) => a;
-    return { renderContent }
+    const renderContent = function(a){
+        let firstMove = a[0].Marker;
+        const firstBox = container.firstChild.textContent = firstMove;
+        return firstMove;
+    }
+        
+    return { renderContent };
 })();
-
-console.log(displayController.renderContent(gameboardObject.gameboard));
 
 function createPlayer(name, marker){
     return { name , marker }
@@ -134,6 +137,7 @@ if (playerOneWins){
 const winner = gameFlowController();
 console.log(`winner is ${winner}`);
 console.log(displayController.renderContent(gameboardObject.gameboard));
+
 
 
 
