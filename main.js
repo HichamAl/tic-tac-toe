@@ -1,7 +1,15 @@
-const gameboardObject = (function createGameboardObject(){
+const gameboardObject = (function (){
     const gameboard = [];
     return { gameboard }
 })();
+
+const displayController = (function (){
+    // displaycontroller Object IIFE
+    const renderContent = (a) => a;
+    return { renderContent }
+})();
+
+console.log(displayController.renderContent(gameboardObject.gameboard));
 
 function createPlayer(name, marker){
     return { name , marker }
@@ -107,6 +115,7 @@ if (playerOneWins){
 
 const winner = gameFlowController();
 console.log(`winner is ${winner}`);
+console.log(displayController.renderContent(gameboardObject.gameboard));
 
 
 
