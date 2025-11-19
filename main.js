@@ -5,6 +5,24 @@ const gameboardObject = (function (){
 
 const displayController = (function (){
     // displaycontroller Object IIFE
+    const container = document.querySelector(".container");
+    container.style.width = '456px';
+    container.style.height = '456px';
+    container.style.display = 'flex';
+    container.style.flexWrap = 'wrap';
+
+    let counter = 1;
+    for (let i = 0; i < 9; i++){
+        const div = document.createElement("div");
+        div.classList.add(`box${counter}`); 
+        counter++;
+        div.style.background = 'red';
+        div.style.border = 'thin solid blue';
+        div.style.width = '150px';
+        div.style.height = '150px';
+        container.appendChild(div);
+    }
+
     const renderContent = (a) => a;
     return { renderContent }
 })();
