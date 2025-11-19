@@ -11,11 +11,8 @@ const displayController = (function (){
     container.style.display = 'flex';
     container.style.flexWrap = 'wrap';
 
-    let counter = 1;
     for (let i = 0; i < 9; i++){
         const div = document.createElement("div");
-        div.classList.add(`box${counter}`); 
-        counter++;
         div.style.background = 'red';
         div.style.border = 'thin solid blue';
         div.style.width = '150px';
@@ -26,11 +23,37 @@ const displayController = (function (){
     const renderContent = function(a){
         for (let i = 0; i < 8; i++){
             let move = a[i].Marker;
-            container.children[i].textContent = move;
-            console.log(move);
+            let choice = a[i].choice;
+
+            if (choice === 'topleft'){
+                container.children[0].textContent = move;
+            } if (choice === 'topright'){
+                container.children[2].textContent = move;
+            } if (choice === 'topmiddle'){
+                container.children[1].textContent = move;
+            } if (choice === 'middleleft'){
+                container.children[3].textContent = move;
+            } if (choice === 'center'){
+                container.children[4].textContent = move;
+            } if (choice === 'middleright'){
+                container.children[5].textContent = move;
+            } if (choice === 'bottomleft'){
+                container.children[6].textContent = move;
+            } if (choice === 'bottommiddle'){
+                container.children[7].textContent = move;
+            } if (choice === 'bottomright'){
+                container.children[8].textContent = move;
+            } 
         }
     } 
-    return { renderContent };
+
+    const winnerText = function(winner) {
+        const div = document.createElement("div");
+        div.textContent = `Congratulations ${winner}, YOU WON!`;
+        const body = document.querySelector("body");
+        body.appendChild(div);
+    }
+    return { renderContent, winnerText };
 })();
 
 function createPlayer(name, marker){
@@ -136,8 +159,7 @@ if (playerOneWins){
 }
 
 const winner = gameFlowController();
-console.log(`winner is ${winner}`);
-console.log(displayController.renderContent(gameboardObject.gameboard));
+displayController.renderContent(gameboardObject.gameboard), displayController.winnerText(winner);
 
 
 
