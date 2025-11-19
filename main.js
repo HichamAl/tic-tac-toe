@@ -24,11 +24,12 @@ const displayController = (function (){
     }
 
     const renderContent = function(a){
-        let firstMove = a[0].Marker;
-        const firstBox = container.firstChild.textContent = firstMove;
-        return firstMove;
-    }
-        
+        for (let i = 0; i < 8; i++){
+            let move = a[i].Marker;
+            container.children[i].textContent = move;
+            console.log(move);
+        }
+    } 
     return { renderContent };
 })();
 
