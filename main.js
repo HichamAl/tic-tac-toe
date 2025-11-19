@@ -17,61 +17,6 @@ function createInputObject(input,playername, marker){
     return { playerName, Marker, choice }
 }
 
-function checkMove(PlayerInput, counter){
-    // 2nd move is 2nd player
-    if (counter % 2 === 0){
-        if (gameboardObject.gameboard.some(e => e.choice === PlayerInput) ){
-        console.log(`${PlayerInput} was found in the gameboard, which means this move was already done.`);
-        // PlayerInput = 'topright';
-        // PlayerInputObject = createInputObject(PlayerInput, PlayerTwo.name, PlayerTwo.marker);
-        // gameboardObject.gameboard.push(PlayerInputObject);
-}       else {
-            PlayerInputObject = createInputObject(PlayerInput, PlayerTwo.name, PlayerTwo.marker);
-            gameboardObject.gameboard.push(PlayerInputObject);
-}
-    } else {
-        if (gameboardObject.gameboard.some(e => e.choice === PlayerInput) ){
-        console.log(`${PlayerInput} was found in the gameboard, which means this move was already done.`);
-        PlayerInput = 'topright';
-        PlayerInputObject = createInputObject(PlayerInput, playerOne.name, playerOne.marker);
-        gameboardObject.gameboard.push(PlayerInputObject);
-}       else {
-            PlayerInputObject = createInputObject(PlayerInput, playerOne.name, playerOne.marker);
-            gameboardObject.gameboard.push(PlayerInputObject);
-}
-    }   
-}
-
-function gameFlowController(){
-}
-
-let counter = 1;
-let PlayerInput = 'bottomleft';
-let PlayerInputObject = createInputObject(PlayerInput, playerOne.name, playerOne.marker);
-gameboardObject.gameboard.push(PlayerInputObject);
-
-++counter;
-console.log(counter);
-PlayerInput = 'topright';
-checkMove(PlayerInput, counter);
-
-++counter;
-PlayerInput = 'center';
-checkMove(PlayerInput, counter);
-
-++counter
-PlayerInput = 'topmiddle';
-checkMove(PlayerInput, counter);
-
-//third move check for win now
-++counter;
-PlayerInput = 'bottomright';
-checkMove(PlayerInput, counter);
-
-++counter;
-PlayerInput = 'topleft';
-checkMove(PlayerInput, counter);
-
 function checkForWin(player){
     const found1 = gameboardObject.gameboard.some(a => a.choice === 'topleft' && a.playerName === player.name);
     const found2 = gameboardObject.gameboard.some(a => a.choice === 'topmiddle' && a.playerName === player.name);
@@ -84,15 +29,66 @@ function checkForWin(player){
     const found9 = gameboardObject.gameboard.some(a => a.choice === 'bottomright' && a.playerName === player.name);
 
     if (found1 && found2 && found3 || found4 && found5 && found6 || found7 && found8 && found9){
-        console.log(`${player.name} wins`);
+        return player.name;
     } if (found1 && found4 && found7 || found2 && found5 && found8 || found3 && found6 && found9){
-        console.log(`${player.name} wins`);
+        return player.name;
     } if (found1 && found5 && found9 || found3 && found5 && found7){
-        console.log(`${player.name} wins`);
+        return player.name;
     } 
 }
-checkForWin(playerOne);
-checkForWin(PlayerTwo);
+
+function checkMove(PlayerInput, playername){
+    if (playername === 'playerone') {
+        if (gameboardObject.gameboard.some(e => e.choice === PlayerInput)) {
+            console.log(`this move was already done. ${PlayerInput}`);
+        } else {
+            PlayerInputObject = createInputObject(PlayerInput, playerOne.name, playerOne.marker);
+            gameboardObject.gameboard.push(PlayerInputObject);
+        }
+    } else {
+        if (gameboardObject.gameboard.some(e => e.choice === PlayerInput)) {
+            console.log(`this move was already done. ${PlayerInput}`);
+        } else {
+            PlayerInputObject = createInputObject(PlayerInput, PlayerTwo.name, PlayerTwo.marker);
+            gameboardObject.gameboard.push(PlayerInputObject);
+        }
+    }
+}
+
+function gameFlowController(){
+let PlayerOneInput = 'topleft';
+checkMove(PlayerOneInput, 'playerone')
+
+let PlayerTwoInput = 'topright';
+checkMove(PlayerTwoInput);
+
+PlayerOneInput = 'middleleft';
+checkMove(PlayerOneInput,'playerone');
+
+PlayerTwoInput = 'topmiddle';
+checkMove(PlayerTwoInput);
+
+//third move check for win now
+PlayerOneInput = 'bottomleft';
+checkMove(PlayerOneInput,'playerone');
+
+let playerOneWins = checkForWin(playerOne);
+let playerTwoWins = checkForWin(PlayerTwo);
+
+if (playerOneWins){
+    return playerOneWins;
+} if (playerTwoWins){
+    return playerTwoWins;
+}
+
+PlayerTwoInput = 'bottomright';
+checkMove(PlayerTwoInput);
+}
+
+const winner = gameFlowController();
+console.log(`winner is ${winner}`);
+
+
 
 
 
