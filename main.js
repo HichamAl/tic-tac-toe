@@ -57,7 +57,7 @@ function checkMove(PlayerInput, playername){
 
 function gameFlowController(){
 let PlayerOneInput = 'topleft';
-checkMove(PlayerOneInput, 'playerone')
+checkMove(PlayerOneInput,'playerone')
 
 let PlayerTwoInput = 'topright';
 checkMove(PlayerTwoInput);
@@ -65,24 +65,44 @@ checkMove(PlayerTwoInput);
 PlayerOneInput = 'middleleft';
 checkMove(PlayerOneInput,'playerone');
 
-PlayerTwoInput = 'topmiddle';
+PlayerTwoInput = 'middleright';
 checkMove(PlayerTwoInput);
 
 //third move check for win now
-PlayerOneInput = 'bottomleft';
+PlayerOneInput = 'topmiddle';
 checkMove(PlayerOneInput,'playerone');
-
 let playerOneWins = checkForWin(playerOne);
-let playerTwoWins = checkForWin(PlayerTwo);
-
 if (playerOneWins){
     return playerOneWins;
-} if (playerTwoWins){
+} 
+
+PlayerTwoInput = 'center';
+checkMove(PlayerTwoInput);
+let playerTwoWins = checkForWin(PlayerTwo);
+if (playerTwoWins) {
     return playerTwoWins;
 }
 
+PlayerOneInput = 'bottommiddle';
+checkMove(PlayerOneInput,'playerone');
+playerOneWins = checkForWin(playerOne);
+if (playerOneWins){
+    return playerOneWins;
+} 
+
 PlayerTwoInput = 'bottomright';
 checkMove(PlayerTwoInput);
+playerTwoWins = checkForWin(PlayerTwo);
+if (playerTwoWins) {
+    return playerTwoWins;
+}
+
+PlayerOneInput = 'bottomleft';
+checkMove(PlayerOneInput,'playerone');
+playerOneWins = checkForWin(playerOne);
+if (playerOneWins){
+    return playerOneWins;
+} 
 }
 
 const winner = gameFlowController();
