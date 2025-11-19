@@ -46,7 +46,7 @@ function gameFlowController(){
 }
 
 let counter = 1;
-let PlayerInput = 'topleft';
+let PlayerInput = 'bottomleft';
 let PlayerInputObject = createInputObject(PlayerInput, playerOne.name, playerOne.marker);
 gameboardObject.gameboard.push(PlayerInputObject);
 
@@ -56,21 +56,43 @@ PlayerInput = 'topright';
 checkMove(PlayerInput, counter);
 
 ++counter;
-PlayerInput = 'middleleft';
+PlayerInput = 'center';
 checkMove(PlayerInput, counter);
 
 ++counter
-PlayerInput = 'middleright';
+PlayerInput = 'topmiddle';
 checkMove(PlayerInput, counter);
 
 //third move check for win now
 ++counter;
-PlayerInput = 'bottomleft';
+PlayerInput = 'bottomright';
 checkMove(PlayerInput, counter);
 
-function checkForWin(){
+++counter;
+PlayerInput = 'topleft';
+checkMove(PlayerInput, counter);
 
+function checkForWin(player){
+    const found1 = gameboardObject.gameboard.some(a => a.choice === 'topleft' && a.playerName === player.name);
+    const found2 = gameboardObject.gameboard.some(a => a.choice === 'topmiddle' && a.playerName === player.name);
+    const found3 = gameboardObject.gameboard.some(a => a.choice === 'topright' && a.playerName === player.name);
+    const found4 = gameboardObject.gameboard.some(a => a.choice === 'middleleft' && a.playerName === player.name);
+    const found5 = gameboardObject.gameboard.some(a => a.choice === 'center' && a.playerName === player.name);
+    const found6 = gameboardObject.gameboard.some(a => a.choice === 'middleright' && a.playerName === player.name);
+    const found7 = gameboardObject.gameboard.some(a => a.choice === 'bottomleft' && a.playerName === player.name);
+    const found8 = gameboardObject.gameboard.some(a => a.choice === 'bottommiddle' && a.playerName === player.name);
+    const found9 = gameboardObject.gameboard.some(a => a.choice === 'bottomright' && a.playerName === player.name);
+
+    if (found1 && found2 && found3 || found4 && found5 && found6 || found7 && found8 && found9){
+        console.log(`${player.name} wins`);
+    } if (found1 && found4 && found7 || found2 && found5 && found8 || found3 && found6 && found9){
+        console.log(`${player.name} wins`);
+    } if (found1 && found5 && found9 || found3 && found5 && found7){
+        console.log(`${player.name} wins`);
+    } 
 }
+checkForWin(playerOne);
+checkForWin(PlayerTwo);
 
 
 
