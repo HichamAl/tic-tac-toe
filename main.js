@@ -49,7 +49,12 @@ const displayController = (function (){
     } 
 
     const winnerText = function(winner) {
+        const GameOver = document.querySelector(".winner");
+        if (GameOver){
+            return;
+        }
         const div = document.createElement("div");
+        div.classList.add("winner");
         div.textContent = `Congratulations ${winner}, YOU WON!`;
         const body = document.querySelector("body");
         body.appendChild(div);
@@ -60,6 +65,12 @@ const displayController = (function (){
         const boxes = document.querySelectorAll(".container > div");
         boxes.forEach((box) => {
             box.addEventListener("click", () => {
+                const GameOver = document.querySelector(".winner");
+                if (GameOver){
+                    for (box in boxes){
+                        box.removeEventListener("click");
+                    }
+                }
                 if (box.textContent){
                     alert('place already taken, chose another place');
                     return;
@@ -117,13 +128,13 @@ function checkForWin(player){
 
     if (found1 && found2 && found3 || found4 && found5 && found6 || found7 && found8 && found9){
         displayController.winnerText(player.name);           
-        return player.name;
+        return;
     } if (found1 && found4 && found7 || found2 && found5 && found8 || found3 && found6 && found9){
         displayController.winnerText(player.name);     
-        return player.name;
+        return;
     } if (found1 && found5 && found9 || found3 && found5 && found7){
         displayController.winnerText(player.name);   
-        return player.name;
+        return;
     } 
 }
 
