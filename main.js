@@ -78,13 +78,19 @@ const displayController = (function (){
                     gameboardObject.gameboard.push(PlayerInputObject);
                     checkForWin(playerOne);
                     checkForWin(PlayerTwo);
-       
                 }    
             })
         })   
     }
 
-    return { renderContent, winnerText, addMarkerToScreen };
+    const addNamesToScreen = function(playerOne, PlayerTwo){
+        const div = document.createElement("div");
+        div.textContent = `PlayerOne = ${playerOne.name} , PlayerTwo = ${PlayerTwo.name}`;  
+        const playerInfo = document.querySelector(".playerinfo");
+        playerInfo.appendChild(div);
+    }
+
+    return { renderContent, winnerText, addMarkerToScreen, addNamesToScreen };
 })();
 
 function createPlayer(name, marker){
@@ -126,6 +132,8 @@ let playerTwoName = prompt("Please enter the name for playertwo");
 
 const playerOne = createPlayer(playerOneName, 'X');
 const PlayerTwo = createPlayer(playerTwoName, 'O');
+
+displayController.addNamesToScreen(playerOne, PlayerTwo);
 
 displayController.addMarkerToScreen(playerOne, PlayerTwo);
 
