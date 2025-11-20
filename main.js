@@ -13,7 +13,7 @@ const displayController = (function (){
 
     for (let i = 0; i < 9; i++){
         const div = document.createElement("div");
-        div.classList.add("box");
+        div.classList.add(`box${i}`);
         div.style.background = 'red';
         div.style.border = 'thin solid blue';
         div.style.width = '150px';
@@ -57,15 +57,24 @@ const displayController = (function (){
 
     const addMarkerToScreen = function(player){  
         let counter = 1;
-        const boxes = document.querySelectorAll(".box");
+        const boxes = document.querySelectorAll(".container > div");
         boxes.forEach((box) => {
             box.addEventListener("click", () => {
+                if (box.textContent){
+                    alert('place already taken, chose another place');
+                    return;
+                }
                 if (counter % 2 == 0){
                     box.textContent = "O";
                     counter++;
+                    PlayerInputObject = createInputObject(box.classList.value, PlayerTwo.name, PlayerTwo.marker);
+                    gameboardObject.gameboard.push(PlayerInputObject);
+
                 } else {
                     box.textContent = "X";
                     counter++;
+                    PlayerInputObject = createInputObject(box.classList.value, playerOne.name, playerOne.marker);
+                    gameboardObject.gameboard.push(PlayerInputObject);
                 }    
             })
         })   
@@ -127,7 +136,6 @@ function checkMove(PlayerInput, playername){
 }
 
 function gameFlowController(){
-displayController.addMarkerToScreen();
 
 let PlayerOneInput = 'topleft';
 checkMove(PlayerOneInput,'playerone')
@@ -178,10 +186,10 @@ if (playerOneWins){
 } 
 }
 
-const winner = gameFlowController();
+// const winner = gameFlowController();
 // displayController.renderContent(gameboardObject.gameboard), displayController.winnerText(winner);
 
-
+displayController.addMarkerToScreen();
 
 
 
