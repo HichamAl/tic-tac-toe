@@ -56,17 +56,19 @@ const displayController = (function (){
     }
 
     const addMarkerToScreen = function(player){  
+        let counter = 1;
         const boxes = document.querySelectorAll(".box");
         boxes.forEach((box) => {
             box.addEventListener("click", () => {
-                if (player === "playerone"){
-                    box.textContent = "X";
-                } else {
+                if (counter % 2 == 0){
                     box.textContent = "O";
-        }
+                    counter++;
+                } else {
+                    box.textContent = "X";
+                    counter++;
+                }    
             })
-        })
-        
+        })   
     }
 
     return { renderContent, winnerText, addMarkerToScreen };
@@ -125,7 +127,7 @@ function checkMove(PlayerInput, playername){
 }
 
 function gameFlowController(){
-let playerOneInput = displayController.addMarkerToScreen('playerone');
+displayController.addMarkerToScreen();
 
 let PlayerOneInput = 'topleft';
 checkMove(PlayerOneInput,'playerone')
