@@ -55,7 +55,7 @@ const displayController = (function (){
         body.appendChild(div);
     }
 
-    const addMarkerToScreen = function(player){  
+    const addMarkerToScreen = function(){  
         let counter = 1;
         const boxes = document.querySelectorAll(".container > div");
         boxes.forEach((box) => {
@@ -69,12 +69,15 @@ const displayController = (function (){
                     counter++;
                     PlayerInputObject = createInputObject(box.classList.value, PlayerTwo.name, PlayerTwo.marker);
                     gameboardObject.gameboard.push(PlayerInputObject);
-
+                    checkForWin(playerOne);
+                    checkForWin(PlayerTwo);
                 } else {
                     box.textContent = "X";
                     counter++;
                     PlayerInputObject = createInputObject(box.classList.value, playerOne.name, playerOne.marker);
                     gameboardObject.gameboard.push(PlayerInputObject);
+                    checkForWin(playerOne);
+                    checkForWin(PlayerTwo);       
                 }    
             })
         })   
@@ -98,21 +101,24 @@ function createInputObject(input,playername, marker){
 }
 
 function checkForWin(player){
-    const found1 = gameboardObject.gameboard.some(a => a.choice === 'topleft' && a.playerName === player.name);
-    const found2 = gameboardObject.gameboard.some(a => a.choice === 'topmiddle' && a.playerName === player.name);
-    const found3 = gameboardObject.gameboard.some(a => a.choice === 'topright' && a.playerName === player.name);
-    const found4 = gameboardObject.gameboard.some(a => a.choice === 'middleleft' && a.playerName === player.name);
-    const found5 = gameboardObject.gameboard.some(a => a.choice === 'center' && a.playerName === player.name);
-    const found6 = gameboardObject.gameboard.some(a => a.choice === 'middleright' && a.playerName === player.name);
-    const found7 = gameboardObject.gameboard.some(a => a.choice === 'bottomleft' && a.playerName === player.name);
-    const found8 = gameboardObject.gameboard.some(a => a.choice === 'bottommiddle' && a.playerName === player.name);
-    const found9 = gameboardObject.gameboard.some(a => a.choice === 'bottomright' && a.playerName === player.name);
+    const found1 = gameboardObject.gameboard.some(a => a.choice === 'box0' && a.playerName === player.name);
+    const found2 = gameboardObject.gameboard.some(a => a.choice === 'box1' && a.playerName === player.name);
+    const found3 = gameboardObject.gameboard.some(a => a.choice === 'box2' && a.playerName === player.name);
+    const found4 = gameboardObject.gameboard.some(a => a.choice === 'box3' && a.playerName === player.name);
+    const found5 = gameboardObject.gameboard.some(a => a.choice === 'box4' && a.playerName === player.name);
+    const found6 = gameboardObject.gameboard.some(a => a.choice === 'box5' && a.playerName === player.name);
+    const found7 = gameboardObject.gameboard.some(a => a.choice === 'box6' && a.playerName === player.name);
+    const found8 = gameboardObject.gameboard.some(a => a.choice === 'box7' && a.playerName === player.name);
+    const found9 = gameboardObject.gameboard.some(a => a.choice === 'box8' && a.playerName === player.name);
 
     if (found1 && found2 && found3 || found4 && found5 && found6 || found7 && found8 && found9){
+        displayController.winnerText(player.name);           
         return player.name;
     } if (found1 && found4 && found7 || found2 && found5 && found8 || found3 && found6 && found9){
+        displayController.winnerText(player.name);     
         return player.name;
     } if (found1 && found5 && found9 || found3 && found5 && found7){
+        displayController.winnerText(player.name);   
         return player.name;
     } 
 }
