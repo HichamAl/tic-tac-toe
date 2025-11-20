@@ -13,6 +13,7 @@ const displayController = (function (){
 
     for (let i = 0; i < 9; i++){
         const div = document.createElement("div");
+        div.classList.add("box");
         div.style.background = 'red';
         div.style.border = 'thin solid blue';
         div.style.width = '150px';
@@ -54,11 +55,20 @@ const displayController = (function (){
         body.appendChild(div);
     }
 
-    const addMarkerToScreen = function(){
-        console.log("test");
-        container.children[6].onclick = () => 
-                container.children[6].textContent = "X";
+    const addMarkerToScreen = function(player){  
+        const boxes = document.querySelectorAll(".box");
+        boxes.forEach((box) => {
+            box.addEventListener("click", () => {
+                if (player === "playerone"){
+                    box.textContent = "X";
+                } else {
+                    box.textContent = "O";
+        }
+            })
+        })
+        
     }
+
     return { renderContent, winnerText, addMarkerToScreen };
 })();
 
@@ -115,6 +125,8 @@ function checkMove(PlayerInput, playername){
 }
 
 function gameFlowController(){
+let playerOneInput = displayController.addMarkerToScreen('playerone');
+
 let PlayerOneInput = 'topleft';
 checkMove(PlayerOneInput,'playerone')
 
@@ -166,7 +178,7 @@ if (playerOneWins){
 
 const winner = gameFlowController();
 // displayController.renderContent(gameboardObject.gameboard), displayController.winnerText(winner);
-displayController.addMarkerToScreen();
+
 
 
 
