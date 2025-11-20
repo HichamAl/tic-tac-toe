@@ -101,7 +101,29 @@ const displayController = (function (){
         playerInfo.appendChild(div);
     }
 
-    return { renderContent, winnerText, addMarkerToScreen, addNamesToScreen };
+    const resetScreen = function(){
+        // remove markers from gameboard UI
+        //const boxes = document.querySelectorAll(".container > div");
+        //boxes.forEach((box) => {
+        //   box.textContent = null;
+        //})   
+
+        // either
+        // I still need to remove the player objects from the previous game
+        // because the checkwin still uses them 
+        // Or clean up gameboard array
+
+        // remove winnertext
+        //const winner = document.querySelector(".winner");
+        //winner.remove();
+
+        //remove players info
+        //const playerInfo = document.querySelector(".playerinfo");
+        //playerInfo.firstElementChild.remove();
+        return;
+    }
+
+    return { renderContent, winnerText, addMarkerToScreen, addNamesToScreen, resetScreen };
 })();
 
 function createPlayer(name, marker){
@@ -127,13 +149,13 @@ function checkForWin(player){
     const found9 = gameboardObject.gameboard.some(a => a.choice === 'box8' && a.playerName === player.name);
 
     if (found1 && found2 && found3 || found4 && found5 && found6 || found7 && found8 && found9){
-        displayController.winnerText(player.name);           
+        displayController.winnerText(player.name);    
         return;
     } if (found1 && found4 && found7 || found2 && found5 && found8 || found3 && found6 && found9){
-        displayController.winnerText(player.name);     
+        displayController.winnerText(player.name); 
         return;
     } if (found1 && found5 && found9 || found3 && found5 && found7){
-        displayController.winnerText(player.name);   
+        displayController.winnerText(player.name);    
         return;
     } 
 }
@@ -145,8 +167,18 @@ const playerOne = createPlayer(playerOneName, 'X');
 const PlayerTwo = createPlayer(playerTwoName, 'O');
 
 displayController.addNamesToScreen(playerOne, PlayerTwo);
-
 displayController.addMarkerToScreen(playerOne, PlayerTwo);
+
+const newGameButton = document.querySelector("#newgame");
+newGameButton.addEventListener("click", function (e) {
+    //displayController.resetScreen();
+    //startGame();
+});
+
+
+
+
+
 
 
 
