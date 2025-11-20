@@ -53,7 +53,13 @@ const displayController = (function (){
         const body = document.querySelector("body");
         body.appendChild(div);
     }
-    return { renderContent, winnerText };
+
+    const addMarkerToScreen = function(){
+        console.log("test");
+        container.children[6].onclick = () => 
+                container.children[6].textContent = "X";
+    }
+    return { renderContent, winnerText, addMarkerToScreen };
 })();
 
 function createPlayer(name, marker){
@@ -159,11 +165,8 @@ if (playerOneWins){
 }
 
 const winner = gameFlowController();
-displayController.renderContent(gameboardObject.gameboard), displayController.winnerText(winner);
-
-
-
-
+// displayController.renderContent(gameboardObject.gameboard), displayController.winnerText(winner);
+displayController.addMarkerToScreen();
 
 
 
