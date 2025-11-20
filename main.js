@@ -55,7 +55,7 @@ const displayController = (function (){
         body.appendChild(div);
     }
 
-    const addMarkerToScreen = function(){  
+    const addMarkerToScreen = function(playerOne,PlayerTwo){  
         let counter = 1;
         const boxes = document.querySelectorAll(".container > div");
         boxes.forEach((box) => {
@@ -77,7 +77,8 @@ const displayController = (function (){
                     PlayerInputObject = createInputObject(box.classList.value, playerOne.name, playerOne.marker);
                     gameboardObject.gameboard.push(PlayerInputObject);
                     checkForWin(playerOne);
-                    checkForWin(PlayerTwo);       
+                    checkForWin(PlayerTwo);
+       
                 }    
             })
         })   
@@ -89,9 +90,6 @@ const displayController = (function (){
 function createPlayer(name, marker){
     return { name , marker }
 }
-
-const playerOne = createPlayer('hicham', 'X');
-const PlayerTwo = createPlayer('amine', 'O');
 
 function createInputObject(input,playername, marker){
     let playerName = playername;
@@ -123,79 +121,13 @@ function checkForWin(player){
     } 
 }
 
-function checkMove(PlayerInput, playername){
-    if (playername === 'playerone') {
-        if (gameboardObject.gameboard.some(e => e.choice === PlayerInput)) {
-            console.log(`this move was already done. ${PlayerInput}`);
-        } else {
-            PlayerInputObject = createInputObject(PlayerInput, playerOne.name, playerOne.marker);
-            gameboardObject.gameboard.push(PlayerInputObject);
-        }
-    } else {
-        if (gameboardObject.gameboard.some(e => e.choice === PlayerInput)) {
-            console.log(`this move was already done. ${PlayerInput}`);
-        } else {
-            PlayerInputObject = createInputObject(PlayerInput, PlayerTwo.name, PlayerTwo.marker);
-            gameboardObject.gameboard.push(PlayerInputObject);
-        }
-    }
-}
+let playerOneName = prompt("Please enter the name for playerone");
+let playerTwoName = prompt("Please enter the name for playertwo");
 
-function gameFlowController(){
+const playerOne = createPlayer(playerOneName, 'X');
+const PlayerTwo = createPlayer(playerTwoName, 'O');
 
-let PlayerOneInput = 'topleft';
-checkMove(PlayerOneInput,'playerone')
-
-let PlayerTwoInput = 'topright';
-checkMove(PlayerTwoInput);
-
-PlayerOneInput = 'middleleft';
-checkMove(PlayerOneInput,'playerone');
-
-PlayerTwoInput = 'middleright';
-checkMove(PlayerTwoInput);
-
-//third move check for win now
-PlayerOneInput = 'topmiddle';
-checkMove(PlayerOneInput,'playerone');
-let playerOneWins = checkForWin(playerOne);
-if (playerOneWins){
-    return playerOneWins;
-} 
-
-PlayerTwoInput = 'center';
-checkMove(PlayerTwoInput);
-let playerTwoWins = checkForWin(PlayerTwo);
-if (playerTwoWins) {
-    return playerTwoWins;
-}
-
-PlayerOneInput = 'bottommiddle';
-checkMove(PlayerOneInput,'playerone');
-playerOneWins = checkForWin(playerOne);
-if (playerOneWins){
-    return playerOneWins;
-} 
-
-PlayerTwoInput = 'bottomright';
-checkMove(PlayerTwoInput);
-playerTwoWins = checkForWin(PlayerTwo);
-if (playerTwoWins) {
-    return playerTwoWins;
-}
-
-PlayerOneInput = 'bottomleft';
-checkMove(PlayerOneInput,'playerone');
-playerOneWins = checkForWin(playerOne);
-if (playerOneWins){
-    return playerOneWins;
-} 
-}
-
-// const winner = gameFlowController();
-// displayController.renderContent(gameboardObject.gameboard), displayController.winnerText(winner);
-
-displayController.addMarkerToScreen();
+displayController.addMarkerToScreen(playerOne, PlayerTwo);
 
 
 
