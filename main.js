@@ -1,6 +1,12 @@
 const gameboardObject = (function (){
     const gameboard = [];
-    return { gameboard }
+    let counter = 1;
+    return { gameboard, counter };
+})();
+
+const PlayersObject = (function (){
+    const players = [];
+    return { players };
 })();
 
 const displayController = (function (){
@@ -60,41 +66,50 @@ const displayController = (function (){
         body.appendChild(div);
     }
 
-    const addMarkerToScreen = function(playerOne,PlayerTwo){  
-        let counter = 1;
+    let boxClickHandler; 
+
+    const addMarkerToScreen = function(playerOne,PlayerTwo){ 
         const boxes = document.querySelectorAll(".container > div");
-        boxes.forEach((box) => {
-            box.addEventListener("click", function addEventListeners() {
-                const GameOver = document.querySelector(".winner");
-                if (GameOver){
-                    boxes.forEach((box) => {
-                        box.removeEventListener("click", addEventListeners);
-                    })
-                    return;
-                }
-                if (box.textContent){
+        
+        boxClickHandler = function(e){
+            const box = e.target;
+            if (box.textContent === "X" || box.textContent === "O"){
+                    console.log(box.textContent);
                     alert('place already taken, chose another place');
                     return;
                 }
-                if (counter % 2 == 0){
+                if (gameboardObject.counter % 2 == 0){
                     box.textContent = "O";
-                    counter++;
-                    PlayerInputObject = createInputObject(box.classList.value, PlayerTwo.name, PlayerTwo.marker);
+                    gameboardObject.counter++;
+                    let PlayerInputObject = createInputObject(box.classList.value, PlayerTwo.name, PlayerTwo.marker);
                     gameboardObject.gameboard.push(PlayerInputObject);
                     checkForWin(playerOne);
                     checkForWin(PlayerTwo);
                     return;
                 } else {
                     box.textContent = "X";
-                    counter++;
-                    PlayerInputObject = createInputObject(box.classList.value, playerOne.name, playerOne.marker);
+                    gameboardObject.counter++;
+                    let PlayerInputObject = createInputObject(box.classList.value, playerOne.name, playerOne.marker);
                     gameboardObject.gameboard.push(PlayerInputObject);
                     checkForWin(playerOne);
                     checkForWin(PlayerTwo);
                     return;
                 }    
-            })
+        }
+        boxes.forEach((box) => {
+            box.addEventListener("click", boxClickHandler);
         })   
+    }
+
+    const removeEventListeners = function(){
+        const boxes = document.querySelectorAll(".container > div");
+        const GameOver = document.querySelector(".winner");
+                if (GameOver){
+                    boxes.forEach((box) => {
+                        box.removeEventListener("click", boxClickHandler);
+                    })
+                    return;
+                }
     }
 
     const addNamesToScreen = function(playerOne, PlayerTwo){
@@ -105,28 +120,29 @@ const displayController = (function (){
     }
 
     const resetScreen = function(){
-        // remove markers from gameboard UI
-        //const boxes = document.querySelectorAll(".container > div");
-        //boxes.forEach((box) => {
-        //   box.textContent = null;
-        //})   
+        gameboardObject.counter = 1;
 
-        // either
-        // I still need to remove the player objects from the previous game
-        // because the checkwin still uses them 
-        // Or clean up gameboard array
+        // remove markers from gameboard UI
+        const boxes = document.querySelectorAll(".container > div");
+        boxes.forEach((box) => {
+        box.textContent = null;
+        })   
+
+        removeEventListeners();
+
+        gameboardObject.gameboard = [];
 
         // remove winnertext
-        //const winner = document.querySelector(".winner");
-        //winner.remove();
+        const winner = document.querySelector(".winner");
+        winner.remove();
 
         //remove players info
-        //const playerInfo = document.querySelector(".playerinfo");
-        //playerInfo.firstElementChild.remove();
+        const playerInfo = document.querySelector(".playerinfo");
+        playerInfo.firstElementChild.remove();
         return;
     }
 
-    return { renderContent, winnerText, addMarkerToScreen, addNamesToScreen, resetScreen };
+    return { renderContent, winnerText, addMarkerToScreen, addNamesToScreen, resetScreen, removeEventListeners };
 })();
 
 function createPlayer(name, marker){
@@ -163,24 +179,28 @@ function checkForWin(player){
     } 
 }
 
+function startGame(){
 let playerOneName = prompt("Please enter the name for playerone");
 let playerTwoName = prompt("Please enter the name for playertwo");
 
 let playerOne = createPlayer(playerOneName, 'X');
 let PlayerTwo = createPlayer(playerTwoName, 'O');
 
-displayController.addNamesToScreen(playerOne, PlayerTwo);
-displayController.addMarkerToScreen(playerOne, PlayerTwo);
+PlayersObject.players.push(playerOne, PlayerTwo);
+// console.log(PlayersObject.players[PlayersObject.players.length -2]);
+
+displayController.addNamesToScreen(PlayersObject.players[PlayersObject.players.length -2], PlayersObject.players[PlayersObject.players.length -1]);
+displayController.addMarkerToScreen(PlayersObject.players[PlayersObject.players.length -2], PlayersObject.players[PlayersObject.players.length -1]);
+}
 
 const newGameButton = document.querySelector("#newgame");
 newGameButton.addEventListener("click", function (e) {
     console.log("newgame button eventlistener works");
+    displayController.resetScreen();
+    startGame();
 });
 
-
-
-
-
+startGame();
 
 
 
