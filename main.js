@@ -64,12 +64,13 @@ const displayController = (function (){
         let counter = 1;
         const boxes = document.querySelectorAll(".container > div");
         boxes.forEach((box) => {
-            box.addEventListener("click", () => {
+            box.addEventListener("click", function addEventListeners() {
                 const GameOver = document.querySelector(".winner");
                 if (GameOver){
-                    for (box in boxes){
-                        box.removeEventListener("click");
-                    }
+                    boxes.forEach((box) => {
+                        box.removeEventListener("click", addEventListeners);
+                    })
+                    return;
                 }
                 if (box.textContent){
                     alert('place already taken, chose another place');
@@ -82,6 +83,7 @@ const displayController = (function (){
                     gameboardObject.gameboard.push(PlayerInputObject);
                     checkForWin(playerOne);
                     checkForWin(PlayerTwo);
+                    return;
                 } else {
                     box.textContent = "X";
                     counter++;
@@ -89,6 +91,7 @@ const displayController = (function (){
                     gameboardObject.gameboard.push(PlayerInputObject);
                     checkForWin(playerOne);
                     checkForWin(PlayerTwo);
+                    return;
                 }    
             })
         })   
@@ -163,16 +166,15 @@ function checkForWin(player){
 let playerOneName = prompt("Please enter the name for playerone");
 let playerTwoName = prompt("Please enter the name for playertwo");
 
-const playerOne = createPlayer(playerOneName, 'X');
-const PlayerTwo = createPlayer(playerTwoName, 'O');
+let playerOne = createPlayer(playerOneName, 'X');
+let PlayerTwo = createPlayer(playerTwoName, 'O');
 
 displayController.addNamesToScreen(playerOne, PlayerTwo);
 displayController.addMarkerToScreen(playerOne, PlayerTwo);
 
 const newGameButton = document.querySelector("#newgame");
 newGameButton.addEventListener("click", function (e) {
-    //displayController.resetScreen();
-    //startGame();
+    console.log("newgame button eventlistener works");
 });
 
 
